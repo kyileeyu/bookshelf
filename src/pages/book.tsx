@@ -9,6 +9,7 @@ import {
 } from "@/features/bookRecord/ui";
 import { FormProvider, useForm } from "react-hook-form";
 import { BookRecordType } from "@/features/bookRecord/model/type";
+import { useFormLocalStorage } from "@/features/bookRecord/model/useFormLocalStorage";
 
 const Book = () => {
   const [funnelStep, setFunnelStep] = useState<number>(1);
@@ -27,6 +28,14 @@ const Book = () => {
       isPublic: false,
     },
   });
+
+  // const onSubmit = async (data: BookRecordType) => {
+  //   await requestToServer(data);
+  //   localStorage.removeItem("bookForm"); // ✅ 저장된 초안 삭제
+  //   methods.reset(); // 폼 초기화
+  // };
+
+  useFormLocalStorage<BookRecordType>("bookForm", methods);
 
   const renderStep = () => {
     switch (funnelStep) {

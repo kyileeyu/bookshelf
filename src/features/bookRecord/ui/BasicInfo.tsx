@@ -16,7 +16,7 @@ export const BasicInfo = () => {
           name={"title"}
           control={control}
           rules={{ required: "제목은 필수입니다." }}
-          render={(field) => <input {...field} placeholder="제목" />}
+          render={({ field }) => <input {...field} placeholder="제목" />}
         />
         <Controller
           name={"publishDate"}
@@ -29,13 +29,13 @@ export const BasicInfo = () => {
         <Controller
           name={"author"}
           control={control}
-          render={(field) => <input {...field} placeholder="저자" />}
+          render={({ field }) => <input {...field} placeholder="저자" />}
         />
         <Controller
           name={"pageCount"}
           control={control}
           rules={{ required: "페이지 수는 필수입니다." }}
-          render={(field) => (
+          render={({ field }) => (
             <input {...field} type={"number"} placeholder="페이지 수" />
           )}
         />

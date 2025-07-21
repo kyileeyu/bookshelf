@@ -12,7 +12,7 @@ export const Rating = () => {
         <Controller
           name={"isRecommended"}
           control={control}
-          render={(field) => (
+          render={({ field }) => (
             <label>
               이 책을 추천합니다
               <input {...field} type={"checkbox"} />

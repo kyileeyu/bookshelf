@@ -9,7 +9,7 @@ export const PublicOrNot = () => {
         <Controller
           name={"isPublic"}
           control={control}
-          render={(field) => (
+          render={({ field }) => (
             <label>
               공개할까요?
               <input {...field} type={"checkbox"} />

@@ -10,7 +10,7 @@ export const Quotes = () => {
         <Controller
           name={"quotes"}
           control={control}
-          render={(field) => <input {...field} type={""} />}
+          render={({ field }) => <input {...field} type={""} />}
         />
       </div>
     </div>
