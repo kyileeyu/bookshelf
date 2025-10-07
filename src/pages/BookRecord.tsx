@@ -8,6 +8,15 @@ import { useState } from "react";
 
 const BookRecord = () => {
   const [step, setStep] = useState(1);
+  //TODO: hook 으로 빼기
+  const goNext = () => {
+    //유효성 검사
+    setStep((prev) => prev + 1);
+  };
+  const goBack = () => {
+    setStep((prev) => prev - 1);
+  };
+
   const Step: Record<number, React.ComponentType> = {
     1: BookInfo,
     2: Rating,
@@ -19,7 +28,7 @@ const BookRecord = () => {
 
   return (
     <>
-      <Layout>
+      <Layout isFirstPage={step === 1} clickNext={goNext} clickPrev={goBack}>
         <CurrentStep />
       </Layout>
     </>

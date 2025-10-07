@@ -1,6 +1,16 @@
 import { Button, Stack } from "@mui/material";
 
-const Layout = ({ children }: { children: React.ReactElement }) => {
+const Layout = ({
+  isFirstPage,
+  clickPrev,
+  clickNext,
+  children,
+}: {
+  isFirstPage: boolean;
+  clickPrev: () => void;
+  clickNext: () => void;
+  children: React.ReactElement;
+}) => {
   return (
     <Stack
       justifyContent={"space-between"}
@@ -15,12 +25,14 @@ const Layout = ({ children }: { children: React.ReactElement }) => {
         direction={"row"}
         justifyContent={"flex-start"}
         sx={{ width: "100%" }}>
-        <Button variant={"text"}>&lt;</Button>
+        <Button variant={"text"} onClick={clickPrev} disabled={isFirstPage}>
+          &lt;
+        </Button>
       </Stack>
 
       {children}
 
-      <Button fullWidth variant={"contained"}>
+      <Button fullWidth variant={"contained"} onClick={clickNext}>
         다음
       </Button>
     </Stack>
