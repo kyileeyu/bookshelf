@@ -1,40 +1,103 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# Multi Step Form
 
-## Getting Started
 
-First, run the development server:
+## 기술스택
+	- typescript
+	- next
+		- page router
+	- react
+	- react-query
+	- react-hook-form
+	- emotion
+	- (필요할때만) jotai
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+애플리케이션은 5단계로 구성
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+- 1단계 - 도서 기본 정보, 독서 상태, 독서할 시작 및 종료일
+  - 독서 상태는 읽고 싶은 책 / 읽는 중 / 읽음 / 보류 중
+- 2단계 - 도서 추천 여부, 별점
+- 별점은 0~5, 0.5점 스케일
+- 3단계 - 독후감
+- 4단계 - 인용구
+- 5단계 - 공개 여부
+  
+  ---
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+### 승현 해야할 일 
+  - [x] 필요한 패키지 깔기
+  - [x] 요구조건 분석하기
+    - 독서 기록장 
+      - 퍼널 형식으로 독서를 기록할 수 있게 쓸것 같아요.
+        - 데이터 구조를 보고싶다.
+      - react-hook-form validation 신경
+        - 폼 상태를 관리하는 법
+      - api 를 쓰는건 +a 같은 느낌?
+  - [x] 어떻게 만들까? 
+    - [ ] pageRouter니까 전체적인 구조는 정해져 있어요.
+    - [ ] fsd 구조를 사용하되, 변형ㅇㅇ (간소화)
+    - [ ] tdd로 만들어 보고 싶음 
+      - [ ] // 구현이 정해져 있다면? 
+      - [x] // 구현 없이 텍스트로만 주어져 있다면? 
+        - [ ] 구현을 먼저 신경 ㅇㅇ // 사용자한테 전달. -> 코드 구조 깔끔?
+    - [ ]  fe 통제할 수 있는것, 통제할 수 없는것
+      - 통제 X
+        - 비동기처리(api) -> 에러처리 O
+        - 사용자 action -> form
+      - 통제 가능
+        - 나머지
+    - 데이터 먼저 모델링 하고 싶습니다!
+  - [ ] 순서
+    1. - [ ] 데이터 모델링 -> 못생겨도 동작
+    2. - [ ] UI -> 사용자 한테 보이는게 우선
+    3. - [ ] 내부 리팩토링? -> 개발적으로 우선하는 무언가
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+  
+  ---
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+### 세부 요구사항 
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+유효성 검증
 
-## Deploy on Vercel
+- [ ] 독서 상태 & 독서 기간
+- [ ] 읽고 싶은 책 은 독서 기간이 입력되면 안 된다.
+- [ ] 읽는 중 이면 독서 시작일만 입력돼야 한다. / 독서 종료일은 입력되면 안 된다.
+- [ ] 읽음 이면 독서 시작일/종료일이 입력돼야 한다.
+- [ ] 보류 중 이면 독서 시작일만 입력돼야 한다. / 독서 종료일은 입력되면 안 된다.
+- 독서 기간
+- [ ] 독서 시작일은 독서 종료일보다 이후면 안 된다.
+- [ ] 독서 시작일은 도서 출판일 이후여야 한다.
+- [ ] 별점 & 독후감
+- [ ] 별점이 1점 또는 5점의 경우, 의견을 뒷받침 하기 위해 최소 100자 이상을 작성해야 한다. 2~4 점 일때는 독후감 필드는 입력안해도 된다.
+- [ ] 인용구 페이지 번호는 도서 전체 페이지 수보다 작아야 한다.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+  
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+고민할만한 포인트
+- [ ] 유효성 검증을 각 단계에서 할까? vs 마지막 단계에서 할까?
+- [ ] 유효성 검증 메세지는 어떻게 보여줄까?
+- [ ] 각 단계에 대한 상태를 쿼리 파라미터로 관리할까?
+
+---
+
+
+심화
+
+- [ ] 새로고침해도 폼 상태를 유지시키기
+- [ ] 옆에 폼 정보를 바탕으로 실시간으로 볼 수 있는 앱 화면 만들기
+- [ ] 500ms 기다렸다가 앱 화면 상태 업데이트
+- [ ] 유효성 검사가 실패했을때 실패한 필드 중 순서상 가장 첫번째 필드로 focus 처리 + 실패한 모든 필드 인풋의 아웃라인을 붉은색으로 처리 + 인풋 하단에 에러 메세지 표시
+- [ ] 인용구를 여러개 등록하고 지울 수 있다 rhf useFieldArray 활용
+- [ ] 인용구가 두개 이상일때는 모든 인용구 필드 하단에 페이지 번호를 입력하는 인풋이 추가된다
+- [ ] 유효성 검사: 페이지 번호는 문자가 오면 안되고(숫자만 가능), 책 페이지 수보다 작아야한다.
+- [ ] 인용구가 두개 이상일때는 모든 페이지 번호 인풋은 required 이고, 한개 이하일때는 optional 이다.
+- [ ] window size event 수신하고 있다가 앱 화면을 컨디셔널 렌더링
+- [ ] viewport width 가 1024px 미만일때는 앱 화면 없음
+- [ ] CommaSeparatedInput 같은 컴포넌트를 설계하고 이것을 rhf 로 매핑 및 export 해서 재활용
+- [ ] 역할 DX) 유저는 숫자만 입력할 수 있고, 숫자를 연달아 입력했을때 자동으로 1000단위로 콤마를 삽입해주고, 그런데 컴포넌트를 사용하는 곳에서는 value를 number로 받을 수 있다.
+- [ ] RHF로 래핑했기 때문에 여러 곳에서 register를 따로 하지 않고도 재활용 할 수 있다 -> RHFCommaSeparatedInput
+- [ ] 내부적으로 Suspense를 일으키는 목록 api 의 응답 값으로 AutoComplete.tsx의 Option 목록을 구성하는 컴포넌트 만들기 + rhf 화
+- [ ] api 가 resolve 되지 않았을때는 로딩바를 보여주고, 에러가 났을때는 rejectedFallback 컴포넌트와 서버의 에러 메세지를 함께 표시, 정상 케이스에서 resolve 됐을때  AutoComplete 노출
