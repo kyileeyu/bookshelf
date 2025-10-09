@@ -7,7 +7,7 @@ import Report from "@/widget/Report";
 import { Rating } from "@mui/material";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useFunnelStep } from "@/libs/useFurnelStep";
+import { useFunnelStep } from "@/libs/useFunnelStep";
 
 export const Index = () => {
   const form = useForm<BookRecord>({
