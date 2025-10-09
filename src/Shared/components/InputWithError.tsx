@@ -9,20 +9,14 @@ type InputWithErrorProps = {
 };
 
 const InputWithError = ({ type, placeholder, name }: InputWithErrorProps) => {
-  const {
-    control,
-    formState: { errors },
-  } = useFormContext<BookRecord>();
-
-  // nested 필드 에러 접근
-  const error = name.split(".").reduce((obj: any, key) => obj?.[key], errors);
+  const { control } = useFormContext<BookRecord>();
 
   return (
     <Stack sx={{ width: "100%" }}>
       <Controller
         name={name}
         control={control}
-        render={({ field }) => {
+        render={({ field, fieldState }) => {
           return (
             <TextField
               label={placeholder}
@@ -30,8 +24,8 @@ const InputWithError = ({ type, placeholder, name }: InputWithErrorProps) => {
               type={type}
               placeholder={placeholder}
               fullWidth
-              error={!!error}
-              helperText={error?.message || ""}
+              error={!!fieldState.error}
+              helperText={fieldState.error?.message || ""}
             />
           );
         }}
