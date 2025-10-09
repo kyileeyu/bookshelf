@@ -1,4 +1,4 @@
-import { BookRecord } from "@/model/type";
+import { BookRecord, BOOK_STATUS, bookStatusEnum } from "@/model/type";
 import InputWithError from "@/Shared/components/InputWithError";
 import { Stack, Typography } from "@mui/material";
 import { useFormContext } from "react-hook-form";
@@ -19,13 +19,19 @@ const BookInfo = () => {
         placeholder="페이지 수"
         name="bookInfo.page"
       />
+      <InputWithError
+        type="date"
+        placeholder="출판일"
+        name="bookInfo.publishDate"
+      />
 
       {/* status */}
       <select {...register("status")}>
-        <option value="WANT">읽고 싶은 책</option>
-        <option value="READING">읽고 있는 책</option>
-        <option value="READ">읽은 책</option>
-        <option value="PENDING">대기 중인 책</option>
+        {bookStatusEnum.map((status) => (
+          <option key={status} value={status}>
+            {BOOK_STATUS[status]}
+          </option>
+        ))}
       </select>
       {errors.status && (
         <Typography color="error">{errors.status.message}</Typography>

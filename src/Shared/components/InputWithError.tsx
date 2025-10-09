@@ -1,6 +1,6 @@
 import { BookRecord } from "@/model/type";
-import { Stack, Typography } from "@mui/material";
-import { useFormContext, Path } from "react-hook-form";
+import { Stack, TextField } from "@mui/material";
+import { useFormContext, Path, Controller } from "react-hook-form";
 
 type InputWithErrorProps = {
   placeholder: string;
@@ -10,7 +10,7 @@ type InputWithErrorProps = {
 
 const InputWithError = ({ type, placeholder, name }: InputWithErrorProps) => {
   const {
-    register,
+    control,
     formState: { errors },
   } = useFormContext<BookRecord>();
 
@@ -18,9 +18,24 @@ const InputWithError = ({ type, placeholder, name }: InputWithErrorProps) => {
   const error = name.split(".").reduce((obj: any, key) => obj?.[key], errors);
 
   return (
-    <Stack>
-      <input type={type} placeholder={placeholder} {...register(name)} />
-      {error && <Typography color="error">{error.message}</Typography>}
+    <Stack sx={{ width: "100%" }}>
+      <Controller
+        name={name}
+        control={control}
+        render={({ field }) => {
+          return (
+            <TextField
+              label={placeholder}
+              {...field}
+              type={type}
+              placeholder={placeholder}
+              fullWidth
+              error={!!error}
+              helperText={error?.message || ""}
+            />
+          );
+        }}
+      />
     </Stack>
   );
 };

@@ -30,7 +30,7 @@ const Layout = ({
         </Button>
       </Stack>
 
-      {children}
+      <Stack sx={{ width: "100%" }}>{children}</Stack>
 
       <Button fullWidth variant={"contained"} onClick={clickNext}>
         다음
