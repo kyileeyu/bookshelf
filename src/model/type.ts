@@ -7,12 +7,12 @@ export const BookRecordSchema = z.object({
       .number({ error: "숫자만 입력 가능합니다." })
       .min(1, "1페이지 이상 입력해주세요."),
   }),
-  //2
   status: z.enum(["WANT", "READING", "READ", "PENDING"]),
   period: z.object({
     startDate: z.date(),
     endDate: z.date(),
   }),
+  //2
   isRecommand: z.boolean(),
   rating: z.number().min(0).max(5),
   ratingReason: z.string().optional(),
@@ -34,3 +34,10 @@ export const BookRecordSchema = z.object({
 });
 
 export type BookRecord = z.infer<typeof BookRecordSchema>;
+export const stepFields: Record<number, (keyof BookRecord)[]> = {
+  1: ["bookInfo", "status", "period"],
+  2: ["isRecommand", "rating", "ratingReason"],
+  3: ["bookMemory"],
+  4: ["quotes"],
+  5: ["isPublic"],
+};

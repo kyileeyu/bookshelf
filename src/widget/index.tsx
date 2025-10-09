@@ -5,21 +5,17 @@ import Publish from "@/widget/Publish";
 import Quote from "@/widget/Quote";
 import Report from "@/widget/Report";
 import { Rating } from "@mui/material";
-import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useFunnelStep } from "@/libs/useFurnelStep";
 
 export const Index = () => {
-  const [step, setStep] = useState(1);
-  //TODO: hook 으로 빼기
-  const goNext = () => {
-    //유효성 검사
+  const form = useForm<BookRecord>({
+    resolver: zodResolver(BookRecordSchema),
+    mode: "onChange",
+  });
 
-    setStep((prev) => prev + 1);
-  };
-  const goBack = () => {
-    setStep((prev) => prev - 1);
-  };
+  const { step, goNext, goBack } = useFunnelStep(form);
 
   const Step: Record<number, React.ComponentType> = {
     1: BookInfo,
@@ -29,11 +25,6 @@ export const Index = () => {
     5: Publish,
   };
   const CurrentStep = Step[step];
-
-  const form = useForm<BookRecord>({
-    resolver: zodResolver(BookRecordSchema),
-    mode: "onChange",
-  });
 
   return (
     <FormProvider {...form}>
