@@ -1,25 +1,36 @@
-export type BookRecord = {
-  //1
-  bookInfo: {
-    name: string;
-    page: number;
-  };
-  status: "WANT" | "READING" | "READ" | "PENDING";
-  period: {
-    startDate: Date;
-    endDate: Date;
-  };
+import z from "zod";
+
+export const BookRecordSchema = z.object({
+  bookInfo: z.object({
+    name: z.string().min(1, "책 제목을 입력해주세요."),
+    page: z
+      .number({ error: "숫자만 입력 가능합니다." })
+      .min(1, "1페이지 이상 입력해주세요."),
+  }),
   //2
-  isRecommand: boolean;
-  rating: number; // 0~5, 0.5점 스케일
-  ratingReason?: string; // 1,5점일때 100자 이상 작성
+  status: z.enum(["WANT", "READING", "READ", "PENDING"]),
+  period: z.object({
+    startDate: z.date(),
+    endDate: z.date(),
+  }),
+  isRecommand: z.boolean(),
+  rating: z.number().min(0).max(5),
+  ratingReason: z.string().optional(),
   //3
-  bookMemory: string;
+  bookMemory: z.string().min(1, "한 줄 평을 입력해주세요."),
   //4
-  quotes: {
-    page: number;
-    quote: string;
-  }[];
+  quotes: z
+    .array(
+      z.object({
+        page: z
+          .number({ error: "숫자만 입력 가능합니다." })
+          .min(1, "1페이지 이상 입력해주세요."),
+        quote: z.string().min(1, "인용구를 입력해주세요."),
+      })
+    )
+    .min(1, "인용구를 한 개 이상 작성해주세요."),
   //5
-  isPublic: boolean;
-};
+  isPublic: z.boolean(),
+});
+
+export type BookRecord = z.infer<typeof BookRecordSchema>;
