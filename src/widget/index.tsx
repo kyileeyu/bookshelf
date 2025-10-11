@@ -4,7 +4,7 @@ import BookInfo from "@/widget/BookInfo";
 import Publish from "@/widget/Publish";
 import Quote from "@/widget/Quote";
 import Report from "@/widget/Report";
-import { Rating } from "@mui/material";
+import Rating from "@/widget/Rating";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useFunnelStep } from "@/libs/useFunnelStep";
@@ -26,7 +26,7 @@ export const Index = () => {
         endDate: "",
       },
       isRecommand: false,
-      rating: 0,
+      rating: 1,
       ratingReason: "",
       bookMemory: "",
       quotes: [],

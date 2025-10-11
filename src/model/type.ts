@@ -29,7 +29,7 @@ export const BookRecordSchema = z
     }),
     //2
     isRecommand: z.boolean(),
-    rating: z.number().min(0).max(5),
+    rating: z.number().min(1, "평점은 1점 이상이어야 합니다.").max(5),
     ratingReason: z.string().optional(),
     //3
     bookMemory: z.string().min(1, "한 줄 평을 입력해주세요."),
