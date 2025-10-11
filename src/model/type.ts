@@ -37,9 +37,7 @@ export const BookRecordSchema = z
     quotes: z
       .array(
         z.object({
-          page: z
-            .number({ error: "숫자만 입력 가능합니다." })
-            .min(1, "1페이지 이상 입력해주세요."),
+          page: z.coerce.number().optional(),
           quote: z.string().min(1, "인용구를 입력해주세요."),
         })
       )
@@ -156,9 +154,22 @@ export const BookRecordSchema = z
       }
     }
 
+    // 인용구가 2개 이상이면 페이지 필수
+    if (quotes.length >= 2) {
+      quotes.forEach((quote, index) => {
+        if (!quote.page || quote.page < 1) {
+          ctx.addIssue({
+            code: "custom",
+            message: "인용구가 2개 이상일 때는 페이지를 입력해야 합니다.",
+            path: ["quotes", index, "page"],
+          });
+        }
+      });
+    }
+
     // 인용구 페이지 번호는 도서 전체 페이지 수보다 작아야 한다
     quotes.forEach((quote, index) => {
-      if (quote.page > bookInfo.page) {
+      if (quote.page && quote.page > Number(bookInfo.page)) {
         ctx.addIssue({
           code: "custom",
           message: `인용구 페이지 번호는 도서 전체 페이지 수(${bookInfo.page})보다 작아야 합니다.`,
