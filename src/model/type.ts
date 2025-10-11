@@ -13,16 +13,19 @@ export const bookStatusEnum = ["WANT", "READING", "READ", "PENDING"] as const;
 export const BookRecordSchema = z
   .object({
     bookInfo: z.object({
-      name: z.string("책 제목을 입력해주세요."),
-      page: z
-        .number("숫자만 입력 가능합니다.")
-        .min(1, "1페이지 이상 입력해주세요."),
-      publishDate: z.date().optional(),
+      name: z.string().min(1, "책 제목을 입력해주세요."),
+      page: z.string().min(1, "페이지 수를 입력해주세요"),
+      publishDate: z.string().optional(),
     }),
-    status: z.enum(bookStatusEnum),
+    status: z
+      .union([z.literal(""), z.enum(bookStatusEnum)])
+      .refine((val) => val !== "", {
+        message: "상태를 선택해주세요",
+      }),
+    //1 date는 전송할때 Date타입으로 바꾸기
     period: z.object({
-      startDate: z.date().optional(),
-      endDate: z.date().optional(),
+      startDate: z.string().optional(),
+      endDate: z.string().optional(),
     }),
     //2
     isRecommand: z.boolean(),

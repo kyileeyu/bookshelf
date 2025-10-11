@@ -13,6 +13,25 @@ export const Index = () => {
   const form = useForm<BookRecord>({
     resolver: zodResolver(BookRecordSchema),
     mode: "onChange",
+    //UI 상태 초기화
+    defaultValues: {
+      bookInfo: {
+        name: "",
+        page: "",
+        publishDate: "",
+      },
+      status: "",
+      period: {
+        startDate: "",
+        endDate: "",
+      },
+      isRecommand: false,
+      rating: 0,
+      ratingReason: "",
+      bookMemory: "",
+      quotes: [],
+      isPublic: false,
+    },
   });
 
   const { step, goNext, goBack } = useFunnelStep(form);

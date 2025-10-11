@@ -25,8 +25,8 @@ const BookInfo = () => {
         name="bookInfo.publishDate"
       />
 
-      {/* status */}
       <select {...register("status")}>
+        <option value="">독서 상태를 선택해주세요</option>
         {bookStatusEnum.map((status) => (
           <option key={status} value={status}>
             {BOOK_STATUS[status]}
