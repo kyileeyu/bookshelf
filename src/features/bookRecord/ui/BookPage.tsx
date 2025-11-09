@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   BasicInfo,
   BookRecord,
@@ -10,7 +9,7 @@ import {
 import { FormProvider, useForm } from "react-hook-form";
 import { BookRecordType } from "@/features/bookRecord/model/type";
 import { useFormLocalStorage } from "@/features/bookRecord/model/useFormLocalStorage";
-import { useStepMove } from "./useStepMove";
+import { useStepMove } from "../model/useStepMove";
 
 const BookPage = () => {
   const { funnelStep, nextStep, prevStep } = useStepMove();
