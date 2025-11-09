@@ -1,49 +1,31 @@
-import {
-  BasicInfo,
-  BookRecord,
-  FunnelLayout,
-  PublicOrNot,
-  Quotes,
-  Rating,
-} from "@/features/bookRecord/ui";
-import { FormProvider, useForm } from "react-hook-form";
-import { BookRecordType } from "@/features/bookRecord/model/type";
-import { useFormLocalStorage } from "@/features/bookRecord/model/useFormLocalStorage";
-import { useStepMove } from "../model/useStepMove";
+import { FunnelLayout } from "@/features/bookRecord/ui";
+import { FormProvider } from "react-hook-form";
+import { StepProvider, useStepContext } from "@/features/bookRecord/model/StepContext";
+import { useBookRecordForm } from "@/features/bookRecord/model/useBookRecordForm";
+import { STEP_COMPONENTS } from "@/features/bookRecord/model/constants";
 
 const BookPage = () => {
-  const { funnelStep, nextStep, prevStep } = useStepMove();
-
-  const methods = useForm<BookRecordType>({
-    mode: "onChange",
-    defaultValues: {
-      // 초기값
-      title: "",
-      rating: 0,
-      record: "",
-      quotes: [],
-      isPublic: false,
-    },
-  });
-
-  useFormLocalStorage<BookRecordType>("bookForm", methods);
-
-  const STEPS: Record<number, React.ComponentType> = {
-    1: BasicInfo,
-    2: Rating,
-    3: BookRecord,
-    4: Quotes,
-    5: PublicOrNot,
-  };
-
-  const StepComponent = STEPS[funnelStep] ?? BasicInfo;
+  // 한 줄로 Form + Validation + LocalStorage 모두 설정!
+  const methods = useBookRecordForm();
 
   return (
-    <FormProvider {...methods}>
-      <FunnelLayout step={funnelStep} onNext={nextStep} onPrev={prevStep}>
-        <StepComponent />
-      </FunnelLayout>
-    </FormProvider>
+    <StepProvider>
+      <FormProvider {...methods}>
+        <BookPageContent />
+      </FormProvider>
+    </StepProvider>
+  );
+};
+
+// Context 내부에서만 사용 가능하도록 분리
+const BookPageContent = () => {
+  const { currentStep } = useStepContext();
+  const StepComponent = STEP_COMPONENTS[currentStep];
+
+  return (
+    <FunnelLayout>
+      <StepComponent />
+    </FunnelLayout>
   );
 };
 
